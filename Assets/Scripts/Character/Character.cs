@@ -47,6 +47,28 @@ public class Character : MonoBehaviour
 
     #endregion
 
+    #region 修正属性
+    /// <summary>
+    /// 角色独立于属性计算的额外血量
+    /// </summary>
+    public int extraHealth;
+
+    /// <summary>
+    /// 角色的额外伤害修正值
+    /// </summary>
+    public int extraDmg;
+
+    /// <summary>
+    /// 角色独立于属性计算的额外魔力
+    /// </summary>
+    public int extraMana;
+
+    /// <summary>
+    /// 角色的额外机动性
+    /// </summary>
+    public int extraMotility;
+    #endregion
+
     /// <summary>
     /// 角色外观
     /// </summary>
@@ -55,8 +77,9 @@ public class Character : MonoBehaviour
     /// <summary>
     /// 角色技能
     /// </summary>
-    public List<object> skill;
+    public List<GameObject> skill;
 
+    #region 二级属性
     /// <summary>
     /// 角色血量
     /// </summary>
@@ -65,24 +88,34 @@ public class Character : MonoBehaviour
     /// <summary>
     /// 角色精力
     /// </summary>
-    private int energy;
+    private double energy;
 
     /// <summary>
     /// 角色魔力
     /// </summary>
-    private int mana;
+    private double mana;
 
     /// <summary>
     /// 角色机动性
     /// </summary>
-    private int motility;
+    private double motility;
+    #endregion
 
     /// <summary>
     /// 初始化角色二级属性
     /// </summary>
     public virtual void Load()
     {
+        health = strength * 0.5 + vitality * 1;
 
+        energy = vitality * 1 + dex * 0.5;
+
+        if (storage > 0  || extraMana > 0)
+        {
+            mana = storage * 2 + extraMana;
+        }
+
+        motility = agility + dex * 0.25 + extraMotility;
     }
 
     public void ChangeHealth(int amount)
