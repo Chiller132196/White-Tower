@@ -100,6 +100,21 @@ public enum TargetType
 
 public class Skill : MonoBehaviour
 {
+    /// <summary>
+    /// 技能是否激活
+    /// </summary>
+    public bool isActive = false;
+
+    /// <summary>
+    /// 技能指针
+    /// </summary>
+    public GameObject skillPoint;
+
+    /// <summary>
+    /// 玩家的鼠标位置
+    /// </summary>
+    public Vector3 mousePoint;
+
     public SkillType skillType;
 
     public RangeShape rangeType;
@@ -126,6 +141,26 @@ public class Skill : MonoBehaviour
     /// 技能具体行动
     /// </summary>
     public virtual void Movement()
+    {
+        
+    }
+
+    /// <summary>
+    /// 检测鼠标位置
+    /// </summary>
+    public Vector3 GetMousePosition()
+    {
+        mousePoint = Input.mousePosition;
+
+        return mousePoint;
+    }
+
+    public virtual void DrawLine()
+    {
+
+    }
+
+    public virtual void DrawRange()
     {
 
     }

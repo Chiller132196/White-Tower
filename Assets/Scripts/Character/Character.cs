@@ -75,9 +75,14 @@ public class Character : MonoBehaviour
     public object out_look;
 
     /// <summary>
-    /// 角色技能
+    /// 被动技能
     /// </summary>
-    public List<GameObject> skill;
+    public List<GameObject> passiveSkill;
+
+    /// <summary>
+    /// 主动角色技能
+    /// </summary>
+    public List<GameObject> positiveSkill;
 
     #region 二级属性
     /// <summary>
