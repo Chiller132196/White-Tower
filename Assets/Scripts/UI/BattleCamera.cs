@@ -12,6 +12,26 @@ public class BattleCamera : MonoBehaviour
     public static BattleCamera battleCamera;
 
     /// <summary>
+    /// 摄像机被拖动的速度
+    /// </summary>
+    public float dragSpeed = 10.0f;
+
+    /// <summary>
+    /// 摄像机的缩放速度
+    /// </summary>
+    public float zoomSpeed = 15f;
+
+    private float mouseScrollValue = 0f;
+
+    public float maxFOV = 100f;
+
+    public float minFOV = 40f;
+
+    private Vector3 lastMousePosition;
+
+    private Vector3 currentMousePosition;
+
+    /// <summary>
     /// 相机移动速度
     /// </summary>
     public float cameraSpeed = 5.0f;
@@ -39,7 +59,39 @@ public class BattleCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            // Debug.Log("捕捉到点击");
+
+            lastMousePosition = Input.mousePosition;
+        }
+
+        if (Input.GetMouseButton(1))
+        {
+            // Debug.Log("开始拖拽");
+
+            currentMousePosition = Input.mousePosition;
+
+            Vector3 deltaPosition = currentMousePosition - lastMousePosition;
+
+            Vector3 dragDistance = new Vector3(-deltaPosition.x, 0, -deltaPosition.y) * Time.deltaTime * dragSpeed;
+
+            transform.Translate(dragDistance, Space.Self);
+
+            lastMousePosition = currentMousePosition;
+        }
+
+        mouseScrollValue = Input.GetAxis("Mouse ScrollWheel");
+
+        if (mouseScrollValue != 0f)
+        {
+            float newFOV = nowUsedCamera.fieldOfView - mouseScrollValue * zoomSpeed;
+
+            newFOV = Mathf.Clamp(newFOV, minFOV, maxFOV);
+
+            nowUsedCamera.fieldOfView = newFOV;
+        }
     }
 
     /// <summary>
