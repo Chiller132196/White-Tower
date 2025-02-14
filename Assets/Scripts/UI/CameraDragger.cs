@@ -55,25 +55,13 @@ public class CameraDragger : MonoBehaviour
 
             Vector3 deltaPosition = currentMousePosition - lastMousePosition;
 
-            Vector3 dragDistance = new Vector3(deltaPosition.x, 0, -deltaPosition.y) * Time.deltaTime * dragSpeed;
+            Vector3 dragDistance = new Vector3(-deltaPosition.x, 0, -deltaPosition.y) * Time.deltaTime * dragSpeed;
 
             transform.Translate(dragDistance, Space.Self);
 
             lastMousePosition = currentMousePosition;
         }
 
-        /*
-        if (Input.GetMouseButtonUp(1))
-        {
-            Vector3 deltaPosition = currentMousePosition - lastMousePosition;
-
-            Vector3 dragDistance = new Vector3(deltaPosition.x, 0, deltaPosition.y) * Time.deltaTime * dragSpeed;
-
-            transform.Translate(dragDistance, Space.Self);
-
-            currentMousePosition = lastMousePosition;
-        }
-        */
     }
 
     public void Wake()

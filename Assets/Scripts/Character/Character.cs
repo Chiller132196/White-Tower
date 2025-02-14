@@ -8,42 +8,42 @@ public class Character : MonoBehaviour
     /// <summary>
     /// 角色力量
     /// </summary>
-    public int strength;
+    public int strength = 1;
 
     /// <summary>
     /// 角色活力
     /// </summary>
-    public int vitality;
+    public int vitality = 1;
 
     /// <summary>
     /// 角色敏捷
     /// </summary>
-    public int agility;
+    public int agility = 1;
 
     /// <summary>
     /// 角色灵巧
     /// </summary>
-    public int dex;
+    public int dex = 1;
 
     /// <summary>
     /// 角色意志
     /// </summary>
-    public int will;
+    public int will = 1;
 
     /// <summary>
     /// 角色知识
     /// </summary>
-    public int knowledge;
+    public int knowledge = 1;
 
     /// <summary>
     /// 角色智谋
     /// </summary>
-    public int wisdom;
+    public int wisdom = 1;
 
     /// <summary>
     /// 角色魔力存量
     /// </summary>
-    public int storage;
+    public int storage = 0;
 
     #endregion
 
