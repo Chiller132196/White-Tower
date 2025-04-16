@@ -88,22 +88,22 @@ public class Character : MonoBehaviour
     /// <summary>
     /// 角色血量
     /// </summary>
-    private double health;
+    private float health;
 
     /// <summary>
     /// 角色精力
     /// </summary>
-    private double energy;
+    private float energy;
 
     /// <summary>
     /// 角色魔力
     /// </summary>
-    private double mana;
+    private float mana;
 
     /// <summary>
     /// 角色机动性
     /// </summary>
-    private double motility;
+    private float motility;
     #endregion
 
     /// <summary>
@@ -111,16 +111,16 @@ public class Character : MonoBehaviour
     /// </summary>
     public virtual void Load()
     {
-        health = strength * 0.5 + vitality * 1;
+        health = strength * 0.5f + vitality * 1;
 
-        energy = vitality * 1 + dex * 0.5;
+        energy = vitality * 1 + dex * 0.5f;
 
         if (storage > 0  || extraMana > 0)
         {
             mana = storage * 2 + extraMana;
         }
 
-        motility = agility + dex * 0.25 + extraMotility;
+        motility = agility + dex * 0.25f + extraMotility;
     }
 
     public void ChangeHealth(int amount)
@@ -136,5 +136,43 @@ public class Character : MonoBehaviour
     public void ChangeEnergy(int amount)
     {
         energy = energy + amount;
+    }
+
+    /// <summary>
+    /// 激活棋子
+    /// </summary>
+    public virtual void Active()
+    {
+        BattleCamera.battleCamera.FocusOnMe(gameObject);
+    }
+
+    public virtual List<UnitLoadOnRound> RespondToRound()
+    {
+        UnitLoadOnRound self = new UnitLoadOnRound();
+
+        self.gameObject = gameObject;
+        self.motility = motility;
+
+        return new List<UnitLoadOnRound> { self };
+    }
+
+    private void Start()
+    {
+        Load();
+    }
+
+    private void OnEnable()
+    {
+        BattleManager.OnSwitchRound += RespondToRound;
+    }
+
+    private void OnDisable()
+    {
+        BattleManager.OnSwitchRound -= RespondToRound;
+    }
+
+    private void OnDestroy()
+    {
+        BattleManager.OnSwitchRound -= RespondToRound;
     }
 }
