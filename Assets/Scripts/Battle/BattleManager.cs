@@ -27,8 +27,14 @@ public class BattleManager : MonoBehaviour
     /// </summary>
     public static event SwitchRound OnSwitchRound;
 
+    /// <summary>
+    /// 本回合参与行动的棋子
+    /// </summary>
     public List<UnitLoadOnRound> chessThisRound;
 
+    /// <summary>
+    /// 棋子序列
+    /// </summary>
     public List<GameObject> chessQueue;
 
     private void Awake()
@@ -58,7 +64,7 @@ public class BattleManager : MonoBehaviour
     #region 回合管理
 
     /// <summary>
-    /// 新回合接收所有单位
+    /// 开始新回合
     /// </summary>
     internal void NewRoundBegin()
     {
@@ -77,6 +83,8 @@ public class BattleManager : MonoBehaviour
 
             chessQueue.Add(unit.gameObject);
         }
+
+        NextAction();
     }
 
     /// <summary>
@@ -108,20 +116,25 @@ public class BattleManager : MonoBehaviour
         return unitThisRound;
     }
 
+    /// <summary>
+    /// 下一动，激活对应棋子
+    /// </summary>
     public void NextAction()
     {
-
+        chessQueue[0].GetComponent<Character>().Active();
     }
 
     public void OnActionEnd()
     {
+        chessQueue.RemoveAt(0);
 
-        chessThisRound.RemoveAt(0);
 
         if ( chessThisRound.Count == 0)
         {
             NewRoundBegin();
         }
+
+        NextAction();
     }
 
     #endregion
