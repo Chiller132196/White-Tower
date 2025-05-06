@@ -31,6 +31,8 @@ public class BattleCamera : MonoBehaviour
 
     private Vector3 currentMousePosition;
 
+    internal GameObject nowFoucusObject;
+
     /// <summary>
     /// 相机移动速度
     /// </summary>
@@ -99,6 +101,8 @@ public class BattleCamera : MonoBehaviour
     /// </summary>
     public void FocusOnMe(GameObject _target)
     {
+        nowFoucusObject = _target;
+
         float cameraDistance = 12f;
 
         Quaternion cameraRotation = nowUsedCamera.transform.rotation;
@@ -114,4 +118,32 @@ public class BattleCamera : MonoBehaviour
         transform.position = targetPosition + offset;
     }
 
+    public void TempFocusOnMe(GameObject _target)
+    {
+        float cameraDistance = 12f;
+
+        Quaternion cameraRotation = nowUsedCamera.transform.rotation;
+
+        //获取摄像机附着物体的坐标
+        Vector3 targetPosition = _target.transform.position;
+
+        Vector3 cameraDirection = cameraRotation * Vector3.back;
+
+        Vector3 offset = cameraDistance * cameraDirection;
+
+        //移动至目标点位
+        transform.position = targetPosition + offset;
+    }
+
+    public void ReFocus()
+    {
+        if (!nowFoucusObject)
+        {
+            Debug.LogWarning("当前无聚焦物体");
+
+            return;
+        }
+
+        FocusOnMe(nowFoucusObject);
+    }
 }

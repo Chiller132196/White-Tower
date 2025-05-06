@@ -6,22 +6,20 @@ public class BattleTest : MonoBehaviour
 {
     public float timer = 0f;
 
-    // Start is called before the first frame update
     void Start()
     {
-        
+        GetComponent<BattleManager>().NewRoundBegin();
     }
 
-    // Update is called once per frame
     void Update()
     {
         timer += Time.deltaTime;
 
         if (timer >= 3)
-        {
+        {/*
             timer = 0f;
 
-            GetComponent<BattleManager>().NewRoundBegin();
+            GetComponent<BattleManager>().NewRoundBegin();*/
         }
     }
 }

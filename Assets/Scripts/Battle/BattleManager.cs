@@ -72,12 +72,12 @@ public class BattleManager : MonoBehaviour
 
         chessQueue = new List<GameObject>();
 
-        List<UnitLoadOnRound> unitThisRound = NewRoundCheck();
+        chessThisRound = NewRoundCheck();
 
-        unitThisRound = NewRoundSort(unitThisRound);
+        chessThisRound = NewRoundSort(chessThisRound);
 
         //调试用，检测排序后列表是否正确
-        foreach (UnitLoadOnRound unit in unitThisRound)
+        foreach (UnitLoadOnRound unit in chessThisRound)
         {
             Debug.Log(unit.gameObject.name + "机动:" + unit.motility);
 
@@ -128,13 +128,24 @@ public class BattleManager : MonoBehaviour
     {
         chessQueue.RemoveAt(0);
 
-
-        if ( chessThisRound.Count == 0)
+        if ( chessQueue.Count == 0)
         {
             NewRoundBegin();
         }
 
         NextAction();
+    }
+
+    #endregion
+
+    #region 技能交互
+
+    public void LoadSkill(int _number)
+    {
+        if (_number == 5)
+        {
+            OnActionEnd();
+        }
     }
 
     #endregion

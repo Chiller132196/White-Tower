@@ -39,6 +39,6 @@ public class Location : MonoBehaviour
             return;
         }
 
-        character.transform.position = transform.position;
+        character.transform.position = new Vector3(transform.position.x, transform.position.y + 5.0f, transform.position.z);
     }
 }

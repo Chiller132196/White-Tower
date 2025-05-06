@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 182252527}
   - component: {fileID: 182252526}
   m_Layer: 5
-  m_Name: Button (2)
+  m_Name: SkillBtn3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -204,7 +204,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 182252527}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 931565452}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: OnSkillTriggerDown
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &182252527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -693,7 +705,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 777728062}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a8c3d47caad3764c92211047c624045, type: 3}
   m_Name: 
@@ -712,7 +724,7 @@ GameObject:
   - component: {fileID: 813753855}
   - component: {fileID: 813753854}
   m_Layer: 5
-  m_Name: Button
+  m_Name: SkillBtn1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -781,7 +793,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 813753855}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 931565452}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: OnSkillTriggerDown
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &813753855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -833,7 +857,7 @@ GameObject:
   - component: {fileID: 876097379}
   - component: {fileID: 876097378}
   m_Layer: 5
-  m_Name: Button (4)
+  m_Name: SkillBtn5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -902,7 +926,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 876097379}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 931565452}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: OnSkillTriggerDown
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 5
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &876097379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -941,6 +977,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 876097376}
   m_CullTransparentMesh: 1
+--- !u!1 &931565451
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 931565453}
+  - component: {fileID: 931565452}
+  m_Layer: 0
+  m_Name: InputManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &931565452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 931565451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54ad6ad8944b34d4d98d493356604e1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &931565453
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 931565451}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.3110828, y: -1.469306, z: 2.114417}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &932744336
 GameObject:
   m_ObjectHideFlags: 0
@@ -1516,13 +1596,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1292022380}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
+  m_LocalRotation: {x: 0.3073113, y: -0, z: -0, w: 0.951609}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1599940200}
-  m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 35.795, y: 0, z: 0}
 --- !u!1 &1314960280
 GameObject:
   m_ObjectHideFlags: 0
@@ -1536,7 +1616,7 @@ GameObject:
   - component: {fileID: 1314960283}
   - component: {fileID: 1314960282}
   m_Layer: 5
-  m_Name: Button (3)
+  m_Name: SkillBtn4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1605,7 +1685,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1314960283}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 931565452}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: OnSkillTriggerDown
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1314960283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1718,9 +1810,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 932744337}
     m_Modifications:
+    - target: {fileID: 365366560659869190, guid: 0d97d0ffed389a64fbba77f0f4eb5ecb, type: 3}
+      propertyPath: character
+      value: 
+      objectReference: {fileID: 1255906000}
     - target: {fileID: 3668784201087438680, guid: 0d97d0ffed389a64fbba77f0f4eb5ecb, type: 3}
       propertyPath: m_Name
-      value: LocatePoint
+      value: LocatePoint2
       objectReference: {fileID: 0}
     - target: {fileID: 8027478720443154826, guid: 0d97d0ffed389a64fbba77f0f4eb5ecb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2107,7 +2203,7 @@ Transform:
   m_GameObject: {fileID: 1599940198}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 11, z: 0}
+  m_LocalPosition: {x: 0, y: 11, z: -13.26}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2143,6 +2239,7 @@ GameObject:
   - component: {fileID: 1703588714}
   - component: {fileID: 1703588716}
   - component: {fileID: 1703588715}
+  - component: {fileID: 1703588717}
   m_Layer: 5
   m_Name: SkillBar
   m_TagString: Untagged
@@ -2212,6 +2309,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1703588713}
   m_CullTransparentMesh: 1
+--- !u!114 &1703588717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703588713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c88fd2522e2fde94cabf967373293cf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1738478462
 GameObject:
   m_ObjectHideFlags: 0
@@ -2393,7 +2502,7 @@ GameObject:
   - component: {fileID: 1986869464}
   - component: {fileID: 1986869463}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: SkillBtn2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2462,7 +2571,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1986869464}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 931565452}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: OnSkillTriggerDown
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1986869464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2607,9 +2728,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 932744337}
     m_Modifications:
+    - target: {fileID: 365366560659869190, guid: 0d97d0ffed389a64fbba77f0f4eb5ecb, type: 3}
+      propertyPath: character
+      value: 
+      objectReference: {fileID: 261636835}
     - target: {fileID: 3668784201087438680, guid: 0d97d0ffed389a64fbba77f0f4eb5ecb, type: 3}
       propertyPath: m_Name
-      value: LocatePoint
+      value: LocatePoint3
       objectReference: {fileID: 0}
     - target: {fileID: 8027478720443154826, guid: 0d97d0ffed389a64fbba77f0f4eb5ecb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2991,13 +3116,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 932744337}
     m_Modifications:
+    - target: {fileID: 365366560659869190, guid: 0d97d0ffed389a64fbba77f0f4eb5ecb, type: 3}
+      propertyPath: character
+      value: 
+      objectReference: {fileID: 2114651851}
     - target: {fileID: 2523542484479986784, guid: 0d97d0ffed389a64fbba77f0f4eb5ecb, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.18
       objectReference: {fileID: 0}
     - target: {fileID: 3668784201087438680, guid: 0d97d0ffed389a64fbba77f0f4eb5ecb, type: 3}
       propertyPath: m_Name
-      value: LocatePoint
+      value: LocatePoint1
       objectReference: {fileID: 0}
     - target: {fileID: 8027478720443154826, guid: 0d97d0ffed389a64fbba77f0f4eb5ecb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3057,5 +3186,6 @@ SceneRoots:
   - {fileID: 1738478466}
   - {fileID: 961174151}
   - {fileID: 1599940200}
-  - {fileID: 777728063}
   - {fileID: 932744337}
+  - {fileID: 777728063}
+  - {fileID: 931565453}
