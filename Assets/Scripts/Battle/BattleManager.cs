@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum RoundType
+public enum ActionType
 {
-    player,
-    enemy
+    neutral = 0,
+    player = 1,
+    enemy = 2
 }
 
 public class BattleManager : MonoBehaviour
@@ -14,7 +15,7 @@ public class BattleManager : MonoBehaviour
 
     public int gameRound = 0;
 
-    public RoundType roundType;
+    public ActionType actionType;
 
     /// <summary>
     /// 定义回合开始的事件，新回合开始时广播给所有棋子
@@ -136,15 +137,31 @@ public class BattleManager : MonoBehaviour
         NextAction();
     }
 
+    public void SetActionType(int _type)
+    {
+        actionType = (ActionType)_type;
+    }
+
     #endregion
 
     #region 技能交互
 
     public void LoadSkill(int _number)
     {
+        if (actionType != ActionType.player)
+        {
+            Debug.Log("当前非玩家行动");
+            return;
+        }
+
         if (_number == 5)
         {
             OnActionEnd();
+        }
+
+        else
+        {
+            chessQueue[0].GetComponent<Character>();
         }
     }
 

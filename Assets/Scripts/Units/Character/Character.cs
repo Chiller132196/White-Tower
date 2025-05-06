@@ -2,9 +2,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum CharactersPrefer
+{
+    /// <summary>
+    /// 更激进的进攻欲望
+    /// </summary>
+    Aggressive,
+    /// <summary>
+    /// 温和的进攻欲望
+    /// </summary>
+    Mild,
+    /// <summary>
+    /// 不计战损的进攻
+    /// </summary>
+    Crazy,
+    /// <summary>
+    /// 守护型角色
+    /// </summary>
+    Defender,
+    /// <summary>
+    /// 以生存为首要目标的角色
+    /// </summary>
+    Survival
+}
+
 public class Character : MonoBehaviour
 {
     #region 角色属性
+    /// <summary>
+    /// 角色类型，0中立1玩家2敌人
+    /// </summary>
+    public int characterType = 0;
+
+    /// <summary>
+    /// 在敌方阵容时，角色的打法（目前仅参考，无影响）
+    /// </summary>
+    public CharactersPrefer prefer = CharactersPrefer.Mild;
+
     /// <summary>
     /// 角色力量
     /// </summary>
@@ -106,26 +140,34 @@ public class Character : MonoBehaviour
     private float motility;
     #endregion
 
+
+    #region 角色数值相关逻辑
+
     /// <summary>
     /// 初始化角色二级属性
     /// </summary>
     public virtual void Load()
     {
+        //生命值初始化
         health = strength * 0.5f + vitality * 1;
 
         energy = vitality * 1 + dex * 0.5f;
 
-        if (storage > 0  || extraMana > 0)
+        if (storage > 0 || extraMana > 0)
         {
             mana = storage * 2 + extraMana;
         }
 
         motility = agility + dex * 0.25f + extraMotility;
+
+        // Debug.Log(name+" motility:"+motility);
     }
 
-    public void ChangeHealth(int amount)
+    public virtual void ChangeHealth(int amount)
     {
         health = health + amount;
+
+        CheckState();
     }
 
     public void ChangeMana(int amount)
@@ -139,13 +181,63 @@ public class Character : MonoBehaviour
     }
 
     /// <summary>
+    /// 检测自身数值状态
+    /// </summary>
+    public virtual void CheckState()
+    {
+        if (health == 0)
+        {
+            Dead();
+        }
+    }
+
+    /// <summary>
+    /// 角色死亡逻辑
+    /// </summary>
+    internal virtual void Dead()
+    {
+
+    }
+
+    #endregion
+
+    #region 角色战斗相关逻辑
+    /// <summary>
     /// 激活棋子
     /// </summary>
     public virtual void Active()
     {
+        BattleManager.battleManager.SetActionType(characterType);
+
         BattleCamera.battleCamera.FocusOnMe(gameObject);
+
+        //中立单位时运行对应逻辑
+        if (characterType == 0)
+        {
+            NeutralAction();
+        }
+
+        //敌对单位时运行对应逻辑
+        else if (characterType == 2)
+        {
+            EnemyAction();
+        }
     }
 
+    public virtual void NeutralAction()
+    {
+        BattleManager.battleManager.OnActionEnd();
+    }
+
+    public virtual void EnemyAction()
+    {
+        BattleManager.battleManager.OnActionEnd();
+    }
+
+    /// <summary>
+    /// 新回合开始时响应事件
+    /// </summary>
+    /// <returns></returns>
     public virtual List<UnitLoadOnRound> RespondToRound()
     {
         UnitLoadOnRound self = new UnitLoadOnRound();
@@ -156,22 +248,24 @@ public class Character : MonoBehaviour
         return new List<UnitLoadOnRound> { self };
     }
 
-    private void Start()
+    #endregion
+
+    internal virtual void Start()
     {
         Load();
     }
 
-    private void OnEnable()
+    public virtual void OnEnable()
     {
         BattleManager.OnSwitchRound += RespondToRound;
     }
 
-    private void OnDisable()
+    public virtual void OnDisable()
     {
         BattleManager.OnSwitchRound -= RespondToRound;
     }
 
-    private void OnDestroy()
+    public virtual void OnDestroy()
     {
         BattleManager.OnSwitchRound -= RespondToRound;
     }
