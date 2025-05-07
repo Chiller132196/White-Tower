@@ -209,7 +209,10 @@ public class Character : MonoBehaviour
     {
         BattleManager.battleManager.SetActionType(characterType);
 
-        BattleCamera.battleCamera.FocusOnMe(gameObject);
+        if (characterType == 1)
+        {
+            BattleCamera.battleCamera.FocusOnMe(gameObject);
+        }
 
         //中立单位时运行对应逻辑
         if (characterType == 0)

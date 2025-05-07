@@ -23,9 +23,9 @@ public class BattleCamera : MonoBehaviour
 
     private float mouseScrollValue = 0f;
 
-    public float maxFOV = 100f;
+    public float maxFOV = 60f;
 
-    public float minFOV = 40f;
+    public float minFOV = 30f;
 
     private Vector3 lastMousePosition;
 
