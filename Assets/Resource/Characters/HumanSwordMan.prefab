@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 4472211727624699111}
   - component: {fileID: 3664139526898068158}
   - component: {fileID: 1509854079865258523}
-  - component: {fileID: 626939866460195216}
   - component: {fileID: 8225435911966212856}
   m_Layer: 6
   m_Name: HumanSwordMan
@@ -138,19 +137,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 32
   m_CollisionDetection: 0
---- !u!114 &626939866460195216
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7620746344684684186}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 874049272dd3b784eb8f81691b0e9d84, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timer: 0
 --- !u!114 &8225435911966212856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,7 +164,11 @@ MonoBehaviour:
   extraMana: 0
   extraMotility: 0
   passiveSkill: []
-  positiveSkill: []
+  positiveSkill:
+  - {fileID: 5606394799150143733, guid: d4e5a8ab128335c46885d638c7c04fbd, type: 3}
+  - {fileID: 5606394799150143733, guid: d4e5a8ab128335c46885d638c7c04fbd, type: 3}
+  - {fileID: 5606394799150143733, guid: d4e5a8ab128335c46885d638c7c04fbd, type: 3}
+  - {fileID: 5606394799150143733, guid: d4e5a8ab128335c46885d638c7c04fbd, type: 3}
 --- !u!1001 &2975754367405589494
 PrefabInstance:
   m_ObjectHideFlags: 0

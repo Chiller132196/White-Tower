@@ -80,7 +80,7 @@ public class BattleManager : MonoBehaviour
         //调试用，检测排序后列表是否正确
         foreach (UnitLoadOnRound unit in chessThisRound)
         {
-            Debug.Log(unit.gameObject.name + "机动:" + unit.motility);
+            // Debug.Log(unit.gameObject.name + "机动:" + unit.motility);
 
             chessQueue.Add(unit.gameObject);
         }
@@ -146,6 +146,10 @@ public class BattleManager : MonoBehaviour
 
     #region 技能交互
 
+    /// <summary>
+    /// 尝试调动某位置的技能
+    /// </summary>
+    /// <param name="_number">技能序号</param>
     public void LoadSkill(int _number)
     {
         if (actionType != ActionType.player)
@@ -154,15 +158,27 @@ public class BattleManager : MonoBehaviour
             return;
         }
 
-        if (_number == 5)
+        if (_number == 4)
         {
             OnActionEnd();
         }
 
         else
         {
-            chessQueue[0].GetComponent<Character>();
+            Debug.Log("尝试使单位激活该技能");
+
+            chessQueue[0].GetComponent<Character>().LoadSkill(_number);
         }
+    }
+
+    /// <summary>
+    /// 敌人获取玩家角色以决定技能释放
+    /// </summary>
+    public List<GameObject> GetComputerSkillTargets()
+    {
+        List<GameObject> playerUnits = new List<GameObject>();
+
+        return playerUnits;
     }
 
     #endregion

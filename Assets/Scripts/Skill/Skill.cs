@@ -36,39 +36,20 @@ public enum SkillType
 /// <summary>
 /// 技能指向种类
 /// </summary>
-public enum RangeType
+public enum PointType
 {
     /// <summary>
-    /// 指向性
+    /// 指向单一目标
     /// </summary>
-    Point,
+    PointSingle,
     /// <summary>
-    /// 非指向性
+    /// 对指向目标扩散
     /// </summary>
-    Shape
-}
-
-/// <summary>
-/// 技能范围的种类
-/// </summary>
-public enum RangeShape
-{
+    PointWithRadius,
     /// <summary>
-    /// 正圆技能范围
+    /// 指向多名角色
     /// </summary>
-    circle,
-    /// <summary>
-    /// 椭圆技能范围
-    /// </summary>
-    oval,
-    /// <summary>
-    /// 矩形技能范围
-    /// </summary>
-    rectangle,
-    /// <summary>
-    /// 其他形状的技能范围
-    /// </summary>
-    other
+    PointMultiple
 }
 
 /// <summary>
@@ -93,7 +74,7 @@ public enum TargetType
     /// </summary>
     self,
     /// <summary>
-    /// 技能对范围内所有人生效
+    /// 技能对所有被选者生效
     /// </summary>
     mixture
 }
@@ -117,25 +98,49 @@ public class Skill : MonoBehaviour
 
     public SkillType skillType;
 
-    public RangeShape rangeType;
-
-    public  RangeShape rangeShape;
-
-    /// <summary>
-    /// 范围长度
-    /// </summary>
-    public double rangeLength = 0;
-
-    /// <summary>
-    /// 范围宽度，正圆忽略
-    /// </summary>
-    public double rangeWidth = 0;
+    public PointType pointType;
 
     public TargetType targetType;
 
-    public int targetNum = 0;
+    public int targetNum = 1;
 
+    /// <summary>
+    /// 释放该技能的角色
+    /// </summary>
+    public GameObject costCharacter;
+
+    /// <summary>
+    /// 技能所指向的目标
+    /// </summary>
     public List<GameObject> targets;
+
+    public virtual void SkillActiveByEnemy()
+    {
+
+    }
+    
+    /// <summary>
+    /// 玩家激活该技能
+    /// </summary>
+    public virtual void SkillActiveByPlayer()
+    {
+        Debug.Log("技能"+name+"激活");
+
+        isActive = true;
+    }
+
+    /// <summary>
+    /// 玩家激活该技能
+    /// </summary>
+    /// <param name="_costChara">释放技能的角色</param>
+    public virtual void SkillActiveByPlayer(GameObject _costChara)
+    {
+        Debug.Log("技能" + name + "激活");
+
+        isActive = true;
+
+        costCharacter = _costChara;
+    }
 
     /// <summary>
     /// 技能具体行动
@@ -155,13 +160,45 @@ public class Skill : MonoBehaviour
         return mousePoint;
     }
 
-    public virtual void DrawLine()
+    
+    public virtual void SkillEndByEnemy()
     {
 
+    } 
+
+    /// <summary>
+    /// 玩家结束释放该技能
+    /// </summary>
+    public virtual void SkillEndByPlayer()
+    {
+        isActive = false;
     }
 
-    public virtual void DrawRange()
+    internal virtual void Start()
     {
+        targets = new List<GameObject>();
+    }
+
+    internal virtual void Update()
+    {
+        //技能激活时，通过射线检测获取释放对象
+        if (isActive)
+        {
+            Debug.Log("开始寻找目标");
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                Debug.Log("开接收到点击");
+
+                RaycastHit hit;
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    Debug.Log("射线碰撞到物体: " + hit.collider.gameObject.name);
+                }
+            }
+        }
 
     }
 }

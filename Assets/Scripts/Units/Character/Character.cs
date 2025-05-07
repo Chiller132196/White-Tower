@@ -161,6 +161,17 @@ public class Character : MonoBehaviour
         motility = agility + dex * 0.25f + extraMotility;
 
         // Debug.Log(name+" motility:"+motility);
+
+        // 实例化技能
+        for(int i = 0; i < passiveSkill.Count; i++)
+        {
+            passiveSkill[i] = Instantiate(passiveSkill[i]);
+        }
+
+        for (int i = 0; i < positiveSkill.Count; i++)
+        {
+            positiveSkill[i] = Instantiate(positiveSkill[i]);
+        }
     }
 
     public virtual void ChangeHealth(int amount)
@@ -225,6 +236,13 @@ public class Character : MonoBehaviour
         {
             EnemyAction();
         }
+    }
+
+    public virtual void LoadSkill(int _number)
+    {
+        Debug.Log("尝试释放"+ positiveSkill[_number].name);
+
+        positiveSkill[_number].GetComponent<Skill>().SkillActiveByPlayer(gameObject);
     }
 
     public virtual void NeutralAction()

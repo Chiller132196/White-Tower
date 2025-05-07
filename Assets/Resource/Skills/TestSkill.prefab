@@ -44,11 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1986c24275f5a8641943f3ded2855842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isActive: 0
+  skillPoint: {fileID: 0}
+  mousePoint: {x: 0, y: 0, z: 0}
   skillType: 0
-  rangeType: 0
-  rangeShape: 0
-  rangeLength: 0
-  rangeWidth: 0
+  pointType: 0
   targetType: 0
-  targetNum: 0
+  targetNum: 1
+  costCharacter: {fileID: 0}
   targets: []
