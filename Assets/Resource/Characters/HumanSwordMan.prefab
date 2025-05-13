@@ -163,12 +163,14 @@ MonoBehaviour:
   extraDmg: 0
   extraMana: 0
   extraMotility: 0
+  stateBar: {fileID: 2260939150498612097}
   passiveSkill: []
   positiveSkill:
   - {fileID: 5606394799150143733, guid: d4e5a8ab128335c46885d638c7c04fbd, type: 3}
   - {fileID: 5606394799150143733, guid: d4e5a8ab128335c46885d638c7c04fbd, type: 3}
   - {fileID: 5606394799150143733, guid: d4e5a8ab128335c46885d638c7c04fbd, type: 3}
   - {fileID: 5606394799150143733, guid: d4e5a8ab128335c46885d638c7c04fbd, type: 3}
+  nowLoadSkill: {fileID: 0}
 --- !u!1001 &2975754367405589494
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -226,6 +228,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b24046c2ef7e80446b83592f5be5ffa0, type: 3}
+--- !u!1 &2260939150498612097 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3903627988204863607, guid: b24046c2ef7e80446b83592f5be5ffa0, type: 3}
+  m_PrefabInstance: {fileID: 2975754367405589494}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7195787634241306523 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5372955359853870189, guid: b24046c2ef7e80446b83592f5be5ffa0, type: 3}

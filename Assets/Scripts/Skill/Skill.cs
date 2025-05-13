@@ -106,11 +106,6 @@ public class Skill : MonoBehaviour
     /// </summary>
     public GameObject skillPoint;
 
-    /// <summary>
-    /// 玩家的鼠标位置
-    /// </summary>
-    public Vector3 mousePoint;
-
     public SkillType skillType;
 
     public PointType pointType;
@@ -136,10 +131,25 @@ public class Skill : MonoBehaviour
     #endregion
 
     #region 技能数值
+    /// <summary>
+    /// 技能造成的伤害
+    /// </summary>
     public int damage = 0;
 
+    /// <summary>
+    /// 技能造成的治疗量
+    /// </summary>
     public int heal = 0;
 
+    /// <summary>
+    /// 消耗的能量
+    /// </summary>
+    public int costEnergy = 0;
+
+    /// <summary>
+    /// 消耗的魔力
+    /// </summary>
+    public int costMana = 0;
     #endregion
 
     public virtual void SkillActiveByEnemy(GameObject _costChara)
@@ -206,20 +216,88 @@ public class Skill : MonoBehaviour
     /// </summary>
     public void AddSkillTarget(GameObject _temp)
     {
+        // 有该对象时，不再纳入
+        if (targets.Contains(_temp))
+        {
+            return;
+        }
+
         if (targetType == TargetType.Mixture)
         {
+            if (targets.Count < targetNum)
+            {
+                targets.Add(_temp);
+            }
+            else
+            {
+                List<GameObject> tempList = new List<GameObject>(targetNum) { _temp };
 
+                for (int i = 0; i < targets.Count - 1; i++)
+                {
+                    tempList.Add(targets[i]);
+                }
+            }
         }
 
         else if (targetType == TargetType.Enemy)
         {
+            // 此模式下，非敌人不纳入
+            if (_temp.GetComponent<Character>().characterType != 2)
+            {
+                return;
+            }
 
+            if (targets.Count < targetNum)
+            {
+                targets.Add(_temp);
+            }
+            else
+            {
+                List<GameObject> tempList = new List<GameObject>(targetNum) { _temp };
+
+                for (int i = 0; i < targets.Count - 1; i++)
+                {
+                    tempList.Add(targets[i]);
+                }
+            }
         }
 
         else if (targetType == TargetType.WithFriend)
         {
+            // 此模式下，非友方不纳入
+            if (_temp.GetComponent<Character>().characterType != 1)
+            {
+                return;
+            }
 
+            if (targets.Count < targetNum)
+            {
+                targets.Add(_temp);
+            }
+            else
+            {
+                List<GameObject> tempList = new List<GameObject>(targetNum) { _temp };
+
+                for (int i = 0; i < targets.Count - 1; i++)
+                {
+                    tempList.Add(targets[i]);
+                }
+            }
         }
+
+        else if (targetType == TargetType.OnlyFriend)
+        {
+            // 此模式下，非除自己外的友方不纳入
+            if (_temp.Equals(costCharacter))
+            {
+                return;
+            }
+            else if (_temp.GetComponent<Character>().characterType != 1)
+            {
+                return;
+            }
+        }
+
     }
 
     public virtual void ConfirmSkill()
@@ -251,7 +329,7 @@ public class Skill : MonoBehaviour
 
     internal virtual void Start()
     {
-            targets = new List<GameObject> { };
+            targets = new List<GameObject>(targetNum);
     }
 
     internal virtual void Update()
@@ -262,7 +340,7 @@ public class Skill : MonoBehaviour
             // 技能仅对自身生效时，选中自己
             if (targetType == TargetType.Self)
             {
-                targets = new List<GameObject> { costCharacter };
+                AddSkillTarget(costCharacter);
             }
 
             // 技能不止选中自己时，开始选择目标
@@ -280,9 +358,12 @@ public class Skill : MonoBehaviour
                         GameObject temp = hit.collider.gameObject;
 
                         if (temp.layer == 6)
+                        {
                             Debug.Log("射线碰撞到物体: " + temp);
 
-                        AddSkillTarget(temp);
+                            AddSkillTarget(temp);
+                        }
+
                     }
 
                 }

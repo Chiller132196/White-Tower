@@ -494,8 +494,10 @@ MonoBehaviour:
   extraDmg: 0
   extraMana: 0
   extraMotility: 0
+  stateBar: {fileID: 0}
   passiveSkill: []
   positiveSkill: []
+  nowLoadSkill: {fileID: 0}
 --- !u!1001 &692123135
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -601,8 +603,10 @@ MonoBehaviour:
   extraDmg: 0
   extraMana: 0
   extraMotility: 0
+  stateBar: {fileID: 0}
   passiveSkill: []
   positiveSkill: []
+  nowLoadSkill: {fileID: 0}
 --- !u!1 &777728062
 GameObject:
   m_ObjectHideFlags: 0
@@ -1003,8 +1007,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 931565452}
         m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
-        m_MethodName: OnSkillTriggerDown
-        m_Mode: 3
+        m_MethodName: OnActionEndTriggerDown
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1080,6 +1084,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54ad6ad8944b34d4d98d493356604e1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  confirmBtn: {fileID: 0}
 --- !u!4 &931565453
 Transform:
   m_ObjectHideFlags: 0
@@ -1312,8 +1317,10 @@ MonoBehaviour:
   extraDmg: 0
   extraMana: 0
   extraMotility: 0
+  stateBar: {fileID: 0}
   passiveSkill: []
   positiveSkill: []
+  nowLoadSkill: {fileID: 0}
 --- !u!1 &1037738117
 GameObject:
   m_ObjectHideFlags: 0
@@ -2010,6 +2017,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8027478720443154826, guid: 0d97d0ffed389a64fbba77f0f4eb5ecb, type: 3}
   m_PrefabInstance: {fileID: 1446909040}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1452102412
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1452102413}
+  m_Layer: 0
+  m_Name: BattleUIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1452102413
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1452102412}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.7929171, y: 4.209115, z: -1.1343145}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1535918362
 GameObject:
   m_ObjectHideFlags: 0
@@ -2851,6 +2889,10 @@ PrefabInstance:
       propertyPath: agility
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 8225435911966212856, guid: d3dfa055e206086498d83ce78965da96, type: 3}
+      propertyPath: positiveSkill.Array.data[0]
+      value: 
+      objectReference: {fileID: 5606394799150143733, guid: 372de655787d0db4a9e24b8cc14cc9f2, type: 3}
     - target: {fileID: 8729050422834688452, guid: d3dfa055e206086498d83ce78965da96, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.409
@@ -3078,6 +3120,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 932744337}
     m_Modifications:
+    - target: {fileID: 4498180905264971002, guid: d3dfa055e206086498d83ce78965da96, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7620746344684684186, guid: d3dfa055e206086498d83ce78965da96, type: 3}
       propertyPath: m_Name
       value: HumanSwordMan1
@@ -3457,3 +3503,4 @@ SceneRoots:
   - {fileID: 932744337}
   - {fileID: 777728063}
   - {fileID: 931565453}
+  - {fileID: 1452102413}
