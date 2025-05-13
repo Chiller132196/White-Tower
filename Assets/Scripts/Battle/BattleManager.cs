@@ -158,17 +158,19 @@ public class BattleManager : MonoBehaviour
             return;
         }
 
-        if (_number == 4)
-        {
-            OnActionEnd();
-        }
-
-        else
-        {
             Debug.Log("尝试使单位激活该技能");
 
             chessQueue[0].GetComponent<Character>().LoadSkill(_number);
-        }
+    }
+
+    public void ConfirmSkill()
+    {
+        chessQueue[0].GetComponent<Character>().ConfirmSkill();
+    }
+
+    public void EndCharacterAction()
+    {
+        chessQueue[0].GetComponent<Character>().EndAction();
     }
 
     /// <summary>

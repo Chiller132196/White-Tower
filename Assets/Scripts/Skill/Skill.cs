@@ -30,7 +30,11 @@ public enum SkillType
     /// <summary>
     /// 被动技能
     /// </summary>
-    Passive
+    Passive,
+    /// <summary>
+    /// 混合型技能
+    /// </summary>
+    Mixture
 }
 
 /// <summary>
@@ -60,31 +64,36 @@ public enum TargetType
     /// <summary>
     /// 技能仅对敌人生效
     /// </summary>
-    enemy,
+    Enemy,
     /// <summary>
     /// 技能对友方（包括自己）生效
     /// </summary>
-    withFriend,
+    WithFriend,
     /// <summary>
     /// 技能对除自己外的友方生效
     /// </summary>
-    onlyFriend,
+    OnlyFriend,
     /// <summary>
     /// 技能仅对自己生效
     /// </summary>
-    self,
+    Self,
     /// <summary>
     /// 技能对所有被选者生效
     /// </summary>
-    mixture
+    Mixture
 }
 
 public class Skill : MonoBehaviour
 {
     /// <summary>
-    /// 技能是否激活
+    /// 技能是否被玩家激活
     /// </summary>
-    public bool isActive = false;
+    public bool isActiveByPlayer = false;
+
+    /// <summary>
+    /// 技能是否被敌方激活
+    /// </summary>
+    public bool isActiveByMonster = false;
 
     /// <summary>
     /// 技能指针
@@ -102,6 +111,11 @@ public class Skill : MonoBehaviour
 
     public TargetType targetType;
 
+    /// <summary>
+    /// 是否要求选中目标数量上限后才能释放技能
+    /// </summary>
+    public bool requireMaxTarget = false;
+
     public int targetNum = 1;
 
     /// <summary>
@@ -114,7 +128,7 @@ public class Skill : MonoBehaviour
     /// </summary>
     public List<GameObject> targets;
 
-    public virtual void SkillActiveByEnemy()
+    public virtual void SkillActiveByEnemy(GameObject _costChara)
     {
 
     }
@@ -126,7 +140,9 @@ public class Skill : MonoBehaviour
     {
         Debug.Log("技能"+name+"激活");
 
-        isActive = true;
+        costCharacter = null;
+
+        isActiveByPlayer = true;
     }
 
     /// <summary>
@@ -135,32 +151,51 @@ public class Skill : MonoBehaviour
     /// <param name="_costChara">释放技能的角色</param>
     public virtual void SkillActiveByPlayer(GameObject _costChara)
     {
-        Debug.Log("技能" + name + "激活");
-
-        isActive = true;
+        Debug.Log("技能" + name + "被玩家激活");
 
         costCharacter = _costChara;
+
+        isActiveByPlayer = true;
+
     }
 
     /// <summary>
     /// 技能具体行动
     /// </summary>
-    public virtual void Movement()
+    public virtual void SkillEffect()
     {
-        
+        if (skillType == SkillType.Aggresive)
+        {
+
+        }
     }
 
     /// <summary>
-    /// 检测鼠标位置
+    /// 获取到技能目标后，尝试将其收纳
     /// </summary>
-    public Vector3 GetMousePosition()
+    public void AddSkillTarget(GameObject _temp)
     {
-        mousePoint = Input.mousePosition;
+        if (targetType == TargetType.Mixture)
+        {
 
-        return mousePoint;
+        }
+
+        else if (targetType == TargetType.Enemy)
+        {
+
+        }
+
+        else if (targetType == TargetType.WithFriend)
+        {
+
+        }
     }
 
-    
+    public virtual void ConfirmSkill()
+    {
+
+    }
+
     public virtual void SkillEndByEnemy()
     {
 
@@ -171,34 +206,49 @@ public class Skill : MonoBehaviour
     /// </summary>
     public virtual void SkillEndByPlayer()
     {
-        isActive = false;
+        isActiveByPlayer = false;
     }
 
     internal virtual void Start()
     {
-        targets = new List<GameObject>();
+            targets = new List<GameObject>();
     }
 
     internal virtual void Update()
     {
-        //技能激活时，通过射线检测获取释放对象
-        if (isActive)
+        //技能被玩家激活的通用逻辑
+        if (isActiveByPlayer)
         {
-            Debug.Log("开始寻找目标");
-
-            if (Input.GetMouseButtonUp(0))
+            // 技能仅对自身生效时，选中自己
+            if (targetType == TargetType.Self)
             {
-                Debug.Log("开接收到点击");
-
-                RaycastHit hit;
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-                if (Physics.Raycast(ray, out hit))
-                {
-                    Debug.Log("射线碰撞到物体: " + hit.collider.gameObject.name);
-                }
+                targets = new List<GameObject> { costCharacter };
             }
-        }
 
+            // 技能不止选中自己时，开始选择目标
+            else
+            {
+                if (Input.GetMouseButtonUp(0))
+                {
+                    Debug.Log("接收到点击");
+
+                    RaycastHit hit;
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                    if (Physics.Raycast(ray, out hit))
+                    {
+                        GameObject temp = hit.collider.gameObject;
+
+                        if (temp.layer == 6)
+                            Debug.Log("射线碰撞到物体: " + temp);
+
+                        AddSkillTarget(temp);
+                    }
+
+                }
+
+            }
+
+        }
     }
 }

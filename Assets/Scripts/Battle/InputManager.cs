@@ -16,6 +16,24 @@ public class InputManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 监听技能确认按钮
+    /// </summary>
+    public void OnSkillConfirmTriggerDown()
+    {
+        Debug.Log("尝试确认技能");
+
+        BattleManager.battleManager.ConfirmSkill();
+    }
+
+    /// <summary>
+    /// 监听技能结束按钮
+    /// </summary>
+    public void OnActionEndTriggerDown()
+    {
+        BattleManager.battleManager.EndCharacterAction();
+    }
+
+    /// <summary>
     /// 监听摄像机归位按键
     /// </summary>
     public void OnReFocusTriggerDown()

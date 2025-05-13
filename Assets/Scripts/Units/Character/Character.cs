@@ -118,6 +118,11 @@ public class Character : MonoBehaviour
     /// </summary>
     public List<GameObject> positiveSkill;
 
+    /// <summary>
+    /// 当前装载的技能
+    /// </summary>
+    public GameObject nowLoadSkill;
+
     #region 二级属性
     /// <summary>
     /// 角色血量
@@ -151,6 +156,7 @@ public class Character : MonoBehaviour
         //生命值初始化
         health = strength * 0.5f + vitality * 1;
 
+        // 计算能量
         energy = vitality * 1 + dex * 0.5f;
 
         if (storage > 0 || extraMana > 0)
@@ -158,9 +164,8 @@ public class Character : MonoBehaviour
             mana = storage * 2 + extraMana;
         }
 
+        // 计算机动性
         motility = agility + dex * 0.25f + extraMotility;
-
-        // Debug.Log(name+" motility:"+motility);
 
         // 实例化技能
         for(int i = 0; i < passiveSkill.Count; i++)
@@ -174,6 +179,10 @@ public class Character : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 直接对血量进行修正
+    /// </summary>
+    /// <param name="amount">修正值</param>
     public virtual void ChangeHealth(int amount)
     {
         health = health + amount;
@@ -238,19 +247,46 @@ public class Character : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 释放对应序号的技能
+    /// </summary>
+    /// <param name="_number">技能序号</param>
     public virtual void LoadSkill(int _number)
     {
         Debug.Log("尝试释放"+ positiveSkill[_number].name);
 
+        nowLoadSkill = positiveSkill[_number];
+
         positiveSkill[_number].GetComponent<Skill>().SkillActiveByPlayer(gameObject);
+    }
+
+    public virtual void ConfirmSkill()
+    {
+        if (!nowLoadSkill)
+        {
+            Debug.LogError("当前无正在释放的技能！");
+            return;
+        }
+
+        nowLoadSkill.GetComponent<Skill>().ConfirmSkill();
     }
 
     public virtual void NeutralAction()
     {
-        BattleManager.battleManager.OnActionEnd();
+        //中立单位逻辑需独立重写
+        EndAction();
     }
 
     public virtual void EnemyAction()
+    {
+        //敌怪逻辑需独立重写
+        EndAction();
+    }
+
+    /// <summary>
+    /// 结束自身回合，如果有对应效果可在子类重写
+    /// </summary>
+    public virtual void EndAction()
     {
         BattleManager.battleManager.OnActionEnd();
     }
