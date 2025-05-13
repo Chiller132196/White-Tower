@@ -103,10 +103,16 @@ public class Character : MonoBehaviour
     public int extraMotility;
     #endregion
 
+    #region 角色与外部衔接属性
     /// <summary>
     /// 角色外观
     /// </summary>
-    public object out_look;
+    public object outlook;
+
+    /// <summary>
+    /// 角色顶部GUI
+    /// </summary>
+    public GameObject stateBar;
 
     /// <summary>
     /// 被动技能
@@ -122,27 +128,33 @@ public class Character : MonoBehaviour
     /// 当前装载的技能
     /// </summary>
     public GameObject nowLoadSkill;
+    #endregion
 
     #region 二级属性
     /// <summary>
     /// 角色血量
     /// </summary>
-    private float health;
+    private int health;
 
     /// <summary>
     /// 角色精力
     /// </summary>
-    private float energy;
+    private int energy;
 
     /// <summary>
     /// 角色魔力
     /// </summary>
-    private float mana;
+    private int mana;
 
     /// <summary>
     /// 角色机动性
     /// </summary>
     private float motility;
+
+    /// <summary>
+    /// 角色免伤
+    /// </summary>
+    private int defence;
     #endregion
 
 
@@ -154,10 +166,10 @@ public class Character : MonoBehaviour
     public virtual void Load()
     {
         //生命值初始化
-        health = strength * 0.5f + vitality * 1;
+        health = (int)System.Math.Round(strength * 0.5f + vitality * 1);
 
         // 计算能量
-        energy = vitality * 1 + dex * 0.5f;
+        energy = (int)System.Math.Round(vitality * 1 + dex * 0.5f);
 
         if (storage > 0 || extraMana > 0)
         {
@@ -183,21 +195,45 @@ public class Character : MonoBehaviour
     /// 直接对血量进行修正
     /// </summary>
     /// <param name="amount">修正值</param>
-    public virtual void ChangeHealth(int amount)
+    public virtual void ChangeHealth(int _amount)
     {
-        health = health + amount;
+        health = health + _amount;
 
         CheckState();
     }
 
-    public void ChangeMana(int amount)
+    public void ChangeMana(int _amount)
     {
-        mana = mana + amount;
+        mana = mana + _amount;
+
+        CheckState();
     }
 
-    public void ChangeEnergy(int amount)
+    public void ChangeEnergy(int _amount)
     {
-        energy = energy + amount;
+        energy = energy + _amount;
+
+        CheckState();
+    }
+
+    /// <summary>
+    /// 受到伤害
+    /// </summary>
+    /// <param name="_amount">伤害量</param>
+    /// <param name="_adder">施加者</param>
+    public void GetDamage(int _amount, GameObject _adder)
+    {
+        ChangeHealth( Mathf.Max(0, _amount - defence));
+    }
+
+    /// <summary>
+    /// 被治疗
+    /// </summary>
+    /// <param name="_amount">治疗量</param>
+    /// <param name="_adder">施加者</param>
+    public void GetHeal(int _amount, GameObject _adder)
+    {
+        ChangeHealth(_amount);
     }
 
     /// <summary>
@@ -209,6 +245,8 @@ public class Character : MonoBehaviour
         {
             Dead();
         }
+
+
     }
 
     /// <summary>

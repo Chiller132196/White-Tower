@@ -12,9 +12,9 @@ public enum SkillType
     /// </summary>
     Aggresive,
     /// <summary>
-    /// 移动技能
+    /// 恢复技能
     /// </summary>
-    Transfer,
+    Heal,
     /// <summary>
     /// 增益技能
     /// </summary>
@@ -85,6 +85,12 @@ public enum TargetType
 
 public class Skill : MonoBehaviour
 {
+    #region 技能属性
+    /// <summary>
+    /// 技能的唯一序号
+    /// </summary>
+    public int skillNumber = 0;
+
     /// <summary>
     /// 技能是否被玩家激活
     /// </summary>
@@ -127,6 +133,14 @@ public class Skill : MonoBehaviour
     /// 技能所指向的目标
     /// </summary>
     public List<GameObject> targets;
+    #endregion
+
+    #region 技能数值
+    public int damage = 0;
+
+    public int heal = 0;
+
+    #endregion
 
     public virtual void SkillActiveByEnemy(GameObject _costChara)
     {
@@ -162,11 +176,28 @@ public class Skill : MonoBehaviour
     /// <summary>
     /// 技能具体行动
     /// </summary>
-    public virtual void SkillEffect()
+    public virtual void SkillEffect(List<GameObject> _gameObjects)
     {
+        // 以下为简单的技能逻辑，复杂逻辑通过子类重写
         if (skillType == SkillType.Aggresive)
         {
+            foreach (GameObject chara in _gameObjects)
+            {
+                chara.GetComponent<Character>().GetDamage(damage, costCharacter);
+            }
+        }
 
+        else if (skillType == SkillType.Buff)
+        {
+
+        }
+
+        else if (skillType == SkillType.Heal)
+        {
+            foreach (GameObject chara in _gameObjects)
+            {
+                chara.GetComponent<Character>().GetHeal(heal, costCharacter);
+            }
         }
     }
 
@@ -193,7 +224,16 @@ public class Skill : MonoBehaviour
 
     public virtual void ConfirmSkill()
     {
+        // 不是特殊技能时，不允许无目标释放
+        if (targets.Count == 0 && skillType != SkillType.Mixture)
+        {
+            Debug.LogWarning(name + " 不是无目标可释放技能");
+            return;
+        }
+        else
+        {
 
+        }
     }
 
     public virtual void SkillEndByEnemy()
@@ -211,7 +251,7 @@ public class Skill : MonoBehaviour
 
     internal virtual void Start()
     {
-            targets = new List<GameObject>();
+            targets = new List<GameObject> { };
     }
 
     internal virtual void Update()
@@ -249,6 +289,16 @@ public class Skill : MonoBehaviour
 
             }
 
+        }
+
+        else if (isActiveByMonster)
+        {
+
+        }
+
+        else
+        {
+            targets = new List<GameObject> { };
         }
     }
 }

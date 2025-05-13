@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+    public GameObject confirmBtn;
+
     /// <summary>
     /// 监听按钮按下
     /// </summary>
