@@ -6,6 +6,8 @@ public class InputManager : MonoBehaviour
 {
     public GameObject confirmBtn;
 
+    public GameObject title;
+
     /// <summary>
     /// 监听按钮按下
     /// </summary>
@@ -41,6 +43,23 @@ public class InputManager : MonoBehaviour
     public void OnReFocusTriggerDown()
     {
         BattleCamera.battleCamera.ReFocus();
+    }
+
+    public void CloseTitle()
+    {
+        title.SetActive(false);
+    }
+
+    public void ExitGame()
+    {
+        UnityEditor.EditorApplication.ExitPlaymode();
+
+        Application.Quit();
+    }
+
+    public void ReturnTitle()
+    {
+        title.SetActive(true);
     }
 
     void Start()

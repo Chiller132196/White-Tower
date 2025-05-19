@@ -165,11 +165,23 @@ public class BattleManager : MonoBehaviour
 
     public void ConfirmSkill()
     {
+        if (actionType != ActionType.player)
+        {
+            Debug.Log("当前非玩家行动");
+            return;
+        }
+
         chessQueue[0].GetComponent<Character>().ConfirmSkill();
     }
 
     public void EndCharacterAction()
     {
+        if (actionType != ActionType.player)
+        {
+            Debug.Log("当前非玩家行动");
+            return;
+        }
+
         chessQueue[0].GetComponent<Character>().EndAction();
     }
 

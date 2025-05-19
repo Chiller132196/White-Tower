@@ -199,7 +199,9 @@ public class Skill : MonoBehaviour
 
         else if (skillType == SkillType.Buff)
         {
+            isActiveByPlayer = false;
 
+            isActiveByMonster = false;
         }
 
         else if (skillType == SkillType.Heal)
@@ -208,7 +210,25 @@ public class Skill : MonoBehaviour
             {
                 chara.GetComponent<Character>().GetHeal(heal, costCharacter);
             }
+
+            isActiveByPlayer = false;
+
+            isActiveByMonster = false;
         }
+    }
+
+    internal List<GameObject> AddTarget(GameObject _temp)
+    {
+        List<GameObject> tempList = new List<GameObject>(targetNum) { };
+
+        tempList.Add(_temp);
+
+        for (int i = 0; i < targets.Count - 1; i++)
+        {
+            tempList.Add(targets[i]);
+        }
+
+        return tempList;
     }
 
     /// <summary>
@@ -239,11 +259,12 @@ public class Skill : MonoBehaviour
             }
         }
 
+        // 此模式下，非敌人不纳入
         else if (targetType == TargetType.Enemy)
         {
-            // 此模式下，非敌人不纳入
             if (_temp.GetComponent<Character>().characterType != 2)
             {
+                Debug.Log("Not right type");
                 return;
             }
 
@@ -253,18 +274,13 @@ public class Skill : MonoBehaviour
             }
             else
             {
-                List<GameObject> tempList = new List<GameObject>(targetNum) { _temp };
-
-                for (int i = 0; i < targets.Count - 1; i++)
-                {
-                    tempList.Add(targets[i]);
-                }
+                targets = AddTarget(_temp);
             }
         }
 
+        // 此模式下，非友方不纳入
         else if (targetType == TargetType.WithFriend)
         {
-            // 此模式下，非友方不纳入
             if (_temp.GetComponent<Character>().characterType != 1)
             {
                 return;
@@ -285,9 +301,9 @@ public class Skill : MonoBehaviour
             }
         }
 
+        // 此模式下，非除自己外的友方不纳入
         else if (targetType == TargetType.OnlyFriend)
         {
-            // 此模式下，非除自己外的友方不纳入
             if (_temp.Equals(costCharacter))
             {
                 return;
@@ -310,7 +326,9 @@ public class Skill : MonoBehaviour
         }
         else
         {
+            Debug.Log("对目标物体 " + targets + " 施加 " + damage + " 伤害与 " + heal + " 的治疗量");
 
+            SkillEffect(targets);
         }
     }
 

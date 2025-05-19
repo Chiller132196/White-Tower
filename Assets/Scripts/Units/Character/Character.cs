@@ -179,6 +179,8 @@ public class Character : MonoBehaviour
         // 计算机动性
         motility = agility + dex * 0.25f + extraMotility;
 
+        // Debug.Log(name + "Health:" + health + " Energy:" + energy + " Motility:" + motility);
+
         // 实例化技能
         for(int i = 0; i < passiveSkill.Count; i++)
         {
@@ -266,6 +268,8 @@ public class Character : MonoBehaviour
     public virtual void Active()
     {
         BattleManager.battleManager.SetActionType(characterType);
+
+        Debug.Log(name + "开始行动");
 
         if (characterType == 1)
         {
