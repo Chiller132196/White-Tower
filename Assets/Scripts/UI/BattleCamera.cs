@@ -23,9 +23,9 @@ public class BattleCamera : MonoBehaviour
 
     private float mouseScrollValue = 0f;
 
-    public float maxFOV = 60f;
+    public float maxFOV = 45f;
 
-    public float minFOV = 30f;
+    public float minFOV = 25f;
 
     private Vector3 lastMousePosition;
 
@@ -103,7 +103,7 @@ public class BattleCamera : MonoBehaviour
     {
         nowFoucusObject = _target;
 
-        float cameraDistance = 12f;
+        float cameraDistance = 13f;
 
         Quaternion cameraRotation = nowUsedCamera.transform.rotation;
 
@@ -120,7 +120,7 @@ public class BattleCamera : MonoBehaviour
 
     public void TempFocusOnMe(GameObject _target)
     {
-        float cameraDistance = 12f;
+        float cameraDistance = 13f;
 
         Quaternion cameraRotation = nowUsedCamera.transform.rotation;
 

@@ -199,9 +199,7 @@ public class Skill : MonoBehaviour
 
         else if (skillType == SkillType.Buff)
         {
-            isActiveByPlayer = false;
 
-            isActiveByMonster = false;
         }
 
         else if (skillType == SkillType.Heal)
@@ -211,10 +209,11 @@ public class Skill : MonoBehaviour
                 chara.GetComponent<Character>().GetHeal(heal, costCharacter);
             }
 
-            isActiveByPlayer = false;
-
-            isActiveByMonster = false;
         }
+
+        isActiveByPlayer = false;
+
+        isActiveByMonster = false;
     }
 
     internal List<GameObject> AddTarget(GameObject _temp)

@@ -13,13 +13,6 @@ public class BattleTest : MonoBehaviour
 
     void Update()
     {
-        timer += Time.deltaTime;
 
-        if (timer >= 3)
-        {/*
-            timer = 0f;
-
-            GetComponent<BattleManager>().NewRoundBegin();*/
-        }
     }
 }
