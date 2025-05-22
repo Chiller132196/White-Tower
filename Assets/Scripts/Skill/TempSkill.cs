@@ -20,6 +20,12 @@ public class TempSkill : Skill
             {
                 targets.Add(_temp);
             }
+            else
+            {
+                Destroy(points[0]);
+                points.RemoveAt(0);
+                targets = AddTarget(_temp);
+            }
         }
 
         // 此模式下，非敌人不纳入
@@ -35,6 +41,12 @@ public class TempSkill : Skill
             {
                 targets.Add(_temp);
             }
+            else
+            {
+                Destroy(points[0]);
+                points.RemoveAt(0);
+                targets = AddTarget(_temp);
+            }
         }
 
         // 此模式下，非友方不纳入
@@ -49,6 +61,12 @@ public class TempSkill : Skill
             {
                 targets.Add(_temp);
             }
+            else
+            {
+                Destroy(points[0]);
+                points.RemoveAt(0);
+                targets = AddTarget(_temp);
+            }
         }
 
         // 此模式下，非除自己外的友方不纳入
@@ -62,15 +80,41 @@ public class TempSkill : Skill
             {
                 return;
             }
-        }
 
-        Destroy(points[0]);
+            if (targets.Count < targetNum)
+            {
+                targets.Add(_temp);
+            }
+            else
+            {
+                Destroy(points[0]);
+                points.RemoveAt(0);
+                targets = AddTarget(_temp);
+            }
+        }
 
         points.Add(Instantiate(skillPoint));
 
-        points[points.Count - 1].transform.position = _temp.transform.position;
+        points[points.Count - 1].transform.position = new Vector3(_temp.transform.position.x, _temp.transform.position.y - 0.5f, _temp.transform.position.z);
 
-        targets = AddTarget(_temp);
+    }
 
+    public override void ConfirmSkill()
+    {
+        base.ConfirmSkill();
+
+        foreach (GameObject point in points)
+        {
+            Destroy(point);
+        }
+
+        points.Clear();
+    }
+
+    internal override void Start()
+    {
+        base.Start();
+
+        points = new List<GameObject> { };
     }
 }

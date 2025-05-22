@@ -320,6 +320,11 @@ public class Skill : MonoBehaviour
             {
                 return;
             }
+
+            if (targets.Count < targetNum)
+            {
+                targets.Add(_temp);
+            }
             else
             {
                 targets = AddTarget(_temp);

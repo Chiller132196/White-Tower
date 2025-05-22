@@ -50,7 +50,7 @@ MonoBehaviour:
   isCountable: 0
   needMark: 0
   requireMaxTarget: 0
-  skillPoint: {fileID: 0}
+  skillPoint: {fileID: 8103657081342844494, guid: 8c132ef93a9af7542beb71728494b2e8, type: 3}
   skillType: 0
   pointType: 0
   targetType: 0
@@ -62,5 +62,4 @@ MonoBehaviour:
   heal: 0
   costEnergy: 0
   costMana: 0
-  point: {fileID: 8103657081342844494, guid: 8c132ef93a9af7542beb71728494b2e8, type: 3}
   points: []

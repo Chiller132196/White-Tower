@@ -5228,6 +5228,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8225435911966212856, guid: d3dfa055e206086498d83ce78965da96, type: 3}
+      propertyPath: positiveSkill.Array.data[1]
+      value: 
+      objectReference: {fileID: 5606394799150143733, guid: 93fc8dc2532aa5543b8122c843cf8619, type: 3}
     - target: {fileID: 8729050422834688452, guid: d3dfa055e206086498d83ce78965da96, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.72
