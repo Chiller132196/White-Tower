@@ -67,7 +67,7 @@ public class BattleManager : MonoBehaviour
     /// <summary>
     /// 开始新回合
     /// </summary>
-    internal void NewRoundBegin()
+    public void NewRoundBegin()
     {
         gameRound += 1;
 
@@ -122,6 +122,12 @@ public class BattleManager : MonoBehaviour
     /// </summary>
     public void NextAction()
     {
+        if (chessQueue[0] == null)
+        {
+            Debug.LogError("行动列表中无棋子");
+            return;
+        }
+
         chessQueue[0].GetComponent<Character>().Active();
     }
 

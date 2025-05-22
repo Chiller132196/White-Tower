@@ -102,6 +102,21 @@ public class Skill : MonoBehaviour
     public bool isActiveByMonster = false;
 
     /// <summary>
+    /// 该技能是否数量有限
+    /// </summary>
+    public bool isCountable = false;
+
+    /// <summary>
+    /// 是否需要消耗特殊标记
+    /// </summary>
+    public bool needMark = false;
+
+    /// <summary>
+    /// 是否要求选中目标数量上限后才能释放技能
+    /// </summary>
+    public bool requireMaxTarget = false;
+
+    /// <summary>
     /// 技能指针
     /// </summary>
     public GameObject skillPoint;
@@ -112,12 +127,12 @@ public class Skill : MonoBehaviour
 
     public TargetType targetType;
 
-    /// <summary>
-    /// 是否要求选中目标数量上限后才能释放技能
-    /// </summary>
-    public bool requireMaxTarget = false;
-
     public int targetNum = 1;
+
+    /// <summary>
+    /// 可以释放的次数，仅限次时生效
+    /// </summary>
+    public int releaseNum = 1;
 
     /// <summary>
     /// 释放该技能的角色
@@ -152,9 +167,9 @@ public class Skill : MonoBehaviour
     public int costMana = 0;
     #endregion
 
-    public virtual void SkillActiveByEnemy(GameObject _costChara)
+    public virtual void SkillActiveByEnemy(GameObject _costChara, List<GameObject> _targets)
     {
-
+        SkillEffect(_targets);
     }
     
     /// <summary>
@@ -193,7 +208,7 @@ public class Skill : MonoBehaviour
         {
             foreach (GameObject chara in _gameObjects)
             {
-                chara.GetComponent<Character>().GetDamage(damage, costCharacter);
+                    chara.GetComponent<Character>().GetDamage(damage, costCharacter);
             }
         }
 
@@ -216,16 +231,20 @@ public class Skill : MonoBehaviour
         isActiveByMonster = false;
     }
 
+    /// <summary>
+    /// 向已有的目标队列中填入新单位
+    /// </summary>
+    /// <param name="_temp"></param>
+    /// <returns></returns>
     internal List<GameObject> AddTarget(GameObject _temp)
     {
         List<GameObject> tempList = new List<GameObject>(targetNum) { };
 
+        tempList = targets;
+
         tempList.Add(_temp);
 
-        for (int i = 0; i < targets.Count - 1; i++)
-        {
-            tempList.Add(targets[i]);
-        }
+        tempList.Remove(tempList[0]);
 
         return tempList;
     }
@@ -233,7 +252,7 @@ public class Skill : MonoBehaviour
     /// <summary>
     /// 获取到技能目标后，尝试将其收纳
     /// </summary>
-    public void AddSkillTarget(GameObject _temp)
+    public virtual void AddSkillTarget(GameObject _temp)
     {
         // 有该对象时，不再纳入
         if (targets.Contains(_temp))
@@ -249,12 +268,7 @@ public class Skill : MonoBehaviour
             }
             else
             {
-                List<GameObject> tempList = new List<GameObject>(targetNum) { _temp };
-
-                for (int i = 0; i < targets.Count - 1; i++)
-                {
-                    tempList.Add(targets[i]);
-                }
+                targets = AddTarget(_temp);
             }
         }
 
@@ -291,12 +305,7 @@ public class Skill : MonoBehaviour
             }
             else
             {
-                List<GameObject> tempList = new List<GameObject>(targetNum) { _temp };
-
-                for (int i = 0; i < targets.Count - 1; i++)
-                {
-                    tempList.Add(targets[i]);
-                }
+                targets = AddTarget(_temp);
             }
         }
 
@@ -311,10 +320,17 @@ public class Skill : MonoBehaviour
             {
                 return;
             }
+            else
+            {
+                targets = AddTarget(_temp);
+            }
         }
 
     }
 
+    /// <summary>
+    /// 确认技能释放，若符合条件则技能生效
+    /// </summary>
     public virtual void ConfirmSkill()
     {
         // 不是特殊技能时，不允许无目标释放
@@ -323,6 +339,13 @@ public class Skill : MonoBehaviour
             Debug.LogWarning(name + " 不是无目标可释放技能");
             return;
         }
+
+        if (costCharacter.GetComponent<Character>().CostEnergy(costEnergy) == 0 || costCharacter.GetComponent<Character>().CostMana(costMana) == 0)
+        {
+            Debug.LogWarning(name + "所需能量或法力不足");
+            return;
+        }
+
         else
         {
             Debug.Log("对目标物体 " + targets + " 施加 " + damage + " 伤害与 " + heal + " 的治疗量");

@@ -74,14 +74,14 @@ public class Character : MonoBehaviour
     /// </summary>
     public int wisdom = 1;
 
-    /// <summary>
-    /// 角色魔力存量
-    /// </summary>
-    public int storage = 0;
-
     #endregion
 
     #region 修正属性
+    /// <summary>
+    /// 是否会魔法
+    /// </summary>
+    public bool magical = false;
+
     /// <summary>
     /// 角色独立于属性计算的额外血量
     /// </summary>
@@ -96,6 +96,21 @@ public class Character : MonoBehaviour
     /// 角色独立于属性计算的额外魔力
     /// </summary>
     public int extraMana;
+
+    /// <summary>
+    /// 不计入上限部分的血量
+    /// </summary>
+    public int tempHealth;
+
+    /// <summary>
+    /// 不计入上限部分的能量
+    /// </summary>
+    public int tempEnergy;
+
+    /// <summary>
+    /// 不计入上限部分的魔力
+    /// </summary>
+    public int tempMana;
 
     /// <summary>
     /// 角色的额外机动性
@@ -132,19 +147,109 @@ public class Character : MonoBehaviour
 
     #region 二级属性
     /// <summary>
+    /// 血量
+    /// </summary>
+    public int health;
+
+    /// <summary>
     /// 角色血量
     /// </summary>
-    private int health;
+    public int Health
+    {
+        get => health;
+        set
+        {
+            if (value < health)
+            {
+                int delta = health - value;
+                if (tempHealth > 0)
+                {
+                    int tempDelta = Mathf.Min(delta, tempHealth);
+                    tempHealth -= tempDelta;
+                    delta -= tempDelta;
+                }
+                health -= delta;
+            }
+
+            if (value >= maxHealth)
+            {
+                health = maxHealth;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 角色最大血量
+    /// </summary>
+    private int maxHealth;
+
+    /// <summary>
+    /// 精力
+    /// </summary>
+    public int energy;
 
     /// <summary>
     /// 角色精力
     /// </summary>
-    private int energy;
+    private int Energy
+    {
+        get => energy;
+        set
+        {
+            if (value < energy)
+            {
+                int delta = energy - value;
+                if (tempEnergy > 0)
+                {
+                    int tempDelta = Mathf.Min(delta, tempEnergy);
+                    tempEnergy -= tempDelta;
+                    delta -= tempDelta;
+                }
+                energy -= delta;
+            }
+
+            if (value >= maxEnergy)
+            {
+                energy = maxEnergy;
+            }
+        }
+    }
+
+    private int maxEnergy;
+
+    /// <summary>
+    /// 魔力
+    /// </summary>
+    public int mana;
 
     /// <summary>
     /// 角色魔力
     /// </summary>
-    private int mana;
+    private int Mana
+    {
+        get => mana;
+        set
+        {
+            if (value < mana)
+            {
+                int delta = mana - value;
+                if (tempMana > 0)
+                {
+                    int tempDelta = Mathf.Min(delta, tempMana);
+                    tempMana -= tempDelta;
+                    delta -= tempDelta;
+                }
+                mana -= delta;
+            }
+
+            if (value >= maxMana)
+            {
+                mana = maxMana;
+            }
+        }
+    }
+
+    private int maxMana;
 
     /// <summary>
     /// 角色机动性
@@ -166,20 +271,21 @@ public class Character : MonoBehaviour
     public virtual void Load()
     {
         //生命值初始化
-        health = (int)System.Math.Round(strength * 0.5f + vitality * 1);
+        maxHealth = (int)System.Math.Round(strength * 0.5f + vitality * 1) + extraHealth;
+        Health = maxHealth;
 
         // 计算能量
-        energy = (int)System.Math.Round(vitality * 1 + dex * 0.5f);
+        maxEnergy = (int)System.Math.Round(vitality * 0.2f + dex * 0.05f) + extraMana;
+        Energy = maxEnergy;
 
-        if (storage > 0 || extraMana > 0)
+        if (magical)
         {
-            mana = storage * 2 + extraMana;
+            maxMana = (int)System.Math.Round(vitality * 1 + dex * 0.5f) + extraMana;
+            Mana = maxMana;
         }
 
         // 计算机动性
         motility = agility + dex * 0.25f + extraMotility;
-
-        // Debug.Log(name + "Health:" + health + " Energy:" + energy + " Motility:" + motility);
 
         // 实例化技能
         for(int i = 0; i < passiveSkill.Count; i++)
@@ -191,6 +297,8 @@ public class Character : MonoBehaviour
         {
             positiveSkill[i] = Instantiate(positiveSkill[i]);
         }
+
+        CheckStateBar();
     }
 
     /// <summary>
@@ -199,23 +307,50 @@ public class Character : MonoBehaviour
     /// <param name="amount">修正值</param>
     public virtual void ChangeHealth(int _amount)
     {
-        health = health + _amount;
+        Health = Health + _amount;
 
         CheckState();
+        CheckStateBar();
     }
 
-    public void ChangeMana(int _amount)
+    private void ChangeMana(int _amount)
     {
-        mana = mana + _amount;
+        Mana = Mana + _amount;
 
         CheckState();
+        CheckStateBar();
     }
 
-    public void ChangeEnergy(int _amount)
+    private void ChangeEnergy(int _amount)
     {
-        energy = energy + _amount;
+        Energy = Energy + _amount;
 
         CheckState();
+        CheckStateBar();
+    }
+
+    public int CostEnergy(int _amount)
+    {
+        if ( (Energy+tempEnergy) < _amount)
+        {
+            return 0;
+        }
+
+        ChangeEnergy(-1 * _amount);
+
+        return 1;
+    }
+
+    public int CostMana(int _amount)
+    {
+        if ( (Mana+tempMana) < _amount)
+        {
+            return 0;
+        }
+
+        ChangeMana(-1 * _amount);
+
+        return 1;
     }
 
     /// <summary>
@@ -225,7 +360,12 @@ public class Character : MonoBehaviour
     /// <param name="_adder">施加者</param>
     public void GetDamage(int _amount, GameObject _adder)
     {
-        ChangeHealth( Mathf.Max(0, _amount - defence));
+        // 避免伤害为负
+        int damage = -1 * Mathf.Max(0, _amount - defence);
+
+        ParticleManager.particleManager.ShowNumberRespond(gameObject, damage);
+
+        ChangeHealth(damage);
     }
 
     /// <summary>
@@ -235,6 +375,8 @@ public class Character : MonoBehaviour
     /// <param name="_adder">施加者</param>
     public void GetHeal(int _amount, GameObject _adder)
     {
+        ParticleManager.particleManager.ShowNumberRespond(gameObject, _amount);
+
         ChangeHealth(_amount);
     }
 
@@ -249,6 +391,19 @@ public class Character : MonoBehaviour
         }
 
 
+    }
+
+    /// <summary>
+    /// 调整数值条
+    /// </summary>
+    public virtual void CheckStateBar()
+    {
+        stateBar.GetComponent<StateBar>().ChangeHealth( (float)Health / maxHealth );
+        stateBar.GetComponent<StateBar>().ChangeEnergy( (float)Energy / maxEnergy);
+        if (magical)
+        {
+            stateBar.GetComponent<StateBar>().ChangeEnergy( (float)Mana / maxMana);
+        }
     }
 
     /// <summary>
@@ -331,6 +486,14 @@ public class Character : MonoBehaviour
     public virtual void EndAction()
     {
         BattleManager.battleManager.OnActionEnd();
+    }
+
+    /// <summary>
+    /// 回合结束后恢复一定资源
+    /// </summary>
+    public virtual void Rest()
+    {
+        Energy += (int)System.Math.Round(vitality * 0.05 + dex * 0.03);
     }
 
     /// <summary>

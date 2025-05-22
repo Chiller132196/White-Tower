@@ -25,7 +25,7 @@ public class NumberJumper : MonoBehaviour
         isActive = true;
 
         goal = transform.position;
-        goal.y += 2;
+        goal.y += 2.4f;
     }
 
     private void Awake()

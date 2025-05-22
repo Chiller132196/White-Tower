@@ -47,15 +47,18 @@ MonoBehaviour:
   skillNumber: 1001
   isActiveByPlayer: 0
   isActiveByMonster: 0
+  isCountable: 0
+  needMark: 0
+  requireMaxTarget: 0
   skillPoint: {fileID: 0}
   skillType: 0
   pointType: 0
   targetType: 0
-  requireMaxTarget: 0
   targetNum: 1
+  releaseNum: 1
   costCharacter: {fileID: 0}
   targets: []
   damage: 2
   heal: 0
-  costEnergy: 0
+  costEnergy: 1
   costMana: 0

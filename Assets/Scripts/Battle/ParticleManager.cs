@@ -60,6 +60,8 @@ public class ParticleManager : MonoBehaviour
     /// </summary>
     public GameObject numberParticle;
 
+    public static ParticleManager particleManager;
+
     /// <summary>
     /// 跳数字效果
     /// </summary>
@@ -81,16 +83,16 @@ public class ParticleManager : MonoBehaviour
 
         if (_number > 0)
         {
-            number.GetComponent<TextMeshPro>().color = new Color(255, 0, 0);
+            number.GetComponent<TextMeshPro>().color = new Color(0, 255, 0);
 
             number.GetComponent<TextMeshPro>().text = "+";
         }
 
-        else if (_number < 0)
+        else if (_number <= 0)
         {
-            number.GetComponent<TextMeshPro>().color = new Color(0, 255, 0);
+            number.GetComponent<TextMeshPro>().color = new Color(255, 0, 0);
 
-            number.GetComponent<TextMeshPro>().text = "-";
+            number.GetComponent<TextMeshPro>().text = "";
         }
 
         number.GetComponent<TextMeshPro>().text += _number;
@@ -103,6 +105,21 @@ public class ParticleManager : MonoBehaviour
     public void TestNumber()
     {
         ShowNumberRespond(new Vector3(0,0,0), 10);
+    }
+
+    void Awake()
+    {
+        if (particleManager == null)
+        {
+            particleManager = this;
+
+            DontDestroyOnLoad(gameObject);
+        }
+
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     void Start()

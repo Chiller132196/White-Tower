@@ -103,7 +103,7 @@ public class BattleCamera : MonoBehaviour
     {
         nowFoucusObject = _target;
 
-        float cameraDistance = 13f;
+        float cameraDistance = 15f;
 
         Quaternion cameraRotation = nowUsedCamera.transform.rotation;
 
@@ -120,7 +120,7 @@ public class BattleCamera : MonoBehaviour
 
     public void TempFocusOnMe(GameObject _target)
     {
-        float cameraDistance = 13f;
+        float cameraDistance = 15f;
 
         Quaternion cameraRotation = nowUsedCamera.transform.rotation;
 
